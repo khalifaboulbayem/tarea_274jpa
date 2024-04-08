@@ -6,11 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SocioDto {
-
-    private String nombre;
-
-    private String direccion;
-
+public class PatronDto {
     private String telefono;
+    private String nombre;
 }

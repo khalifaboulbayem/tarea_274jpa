@@ -7,41 +7,40 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.server.ServerErrorException;
 
 import com.jpa.tarea_274.Exceptions.*;
-import com.jpa.tarea_274.dto.SocioDto;
-import com.jpa.tarea_274.models.Socio;
-import com.jpa.tarea_274.repositories.SocioRepository;
+import com.jpa.tarea_274.dto.PatronDto;
+import com.jpa.tarea_274.models.Patron;
+import com.jpa.tarea_274.repositories.PatronRepository;
 import com.jpa.tarea_274.services.GenericCrudService;
 
-public class SocioSeriveImp implements GenericCrudService<Socio, SocioDto> {
+public class PatronSeriveImp implements GenericCrudService<Patron, PatronDto> {
 
     @Autowired
-    private SocioRepository socioRepository;
+    private PatronRepository patronRepository;
 
     @Override
-    public Socio add(SocioDto newEntity) {
+    public Patron add(PatronDto newEntity) {
         if (newEntity == null) {
-            throw new BadRequestException("El socio no debe ser nulo");
+            throw new BadRequestException("El patron no debe ser nulo");
         }
         try {
-            Socio socioToAdd = Socio.builder()
+            Patron patron = Patron.builder()
                     .nombre(newEntity.getNombre())
-                    .direccion(newEntity.getDireccion())
                     .telefono(newEntity.getTelefono())
                     .build();
-            return socioRepository.save(socioToAdd);
+            return patronRepository.save(patron);
         } catch (DataIntegrityViolationException e) {
             // si hay violacion en la clave única o intentadno insertar un intedad ya
             // existente
-            throw new ConflictException("Error añadiendo nuevo socio!" + e.getMessage());
+            throw new ConflictException("Error añadiendo nuevo patron!" + e.getMessage());
         } catch (Exception e) {
             // Si ocurre cualquier otra excepción no esperada
-            throw new ServerErrorException("ERROR Añadiendo nuevo socio!: " + e.getMessage(), e);
+            throw new ServerErrorException("ERROR Añadiendo nuevo patron!: " + e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Socio> getAll() {
-        List<Socio> entities = socioRepository.findAll();
+    public List<Patron> getAll() {
+        List<Patron> entities = patronRepository.findAll();
         if (entities.isEmpty()) {
             throw new NotFoundException("No hay datos");
         }
@@ -49,37 +48,36 @@ public class SocioSeriveImp implements GenericCrudService<Socio, SocioDto> {
     }
 
     @Override
-    public Socio getById(Long id) {
+    public Patron getById(Long id) {
         if (id == null) {
             throw new BadRequestException("El ID no debe ser nulo!");
         }
-        Socio entity = socioRepository.findById(id)
+        Patron entity = patronRepository.findById(id)
                 .orElseThrow(
-                        () -> new NotFoundException("No hay ningun socio con el ID: " + id));
+                        () -> new NotFoundException("No hay ningun patron con el ID: " + id));
         return entity;
     }
 
     @Override
-    public Socio edit(Long id, SocioDto newEntity) {
+    public Patron edit(Long id, PatronDto newEntity) {
         if (id == null) {
             throw new BadRequestException("El ID no debe ser nulo!");
         }
 
-        Socio socioToEdit = socioRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("No hay ningun socio con el ID: " + id));
+        Patron patronToEdit = patronRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("No hay ningun patron con el ID: " + id));
 
-        // usar builder para construir el objeto Socio
-        socioToEdit = Socio.builder()
+        // usar builder para construir el objeto Patron
+        patronToEdit = Patron.builder()
                 .nombre(newEntity.getNombre())
-                .direccion(newEntity.getDireccion())
                 .telefono(newEntity.getTelefono())
                 .build();
 
         try {
-            Socio socio = socioRepository.save(socioToEdit);
-            return socio;
+            Patron patron = patronRepository.save(patronToEdit);
+            return patron;
         } catch (Exception e) {
-            throw new BadRequestException("No se ha podido actualizar el socio " + e.getMessage());
+            throw new BadRequestException("No se ha podido actualizar el patron " + e.getMessage());
         }
     }
 
@@ -88,11 +86,11 @@ public class SocioSeriveImp implements GenericCrudService<Socio, SocioDto> {
         if (id == null) {
             throw new BadRequestException("El ID no debe ser nulo!");
         }
-        if (socioRepository.existsById(id)) {
+        if (patronRepository.existsById(id)) {
             try {
-                socioRepository.deleteById(id);
+                patronRepository.deleteById(id);
             } catch (IllegalArgumentException ex) {
-                throw new ConflictException("No se puede editar el socio con el ID: " + id
+                throw new ConflictException("No se puede editar el patron con el ID: " + id
                         + " Data integrity violation \n" + ex.getMessage());
             }
         }
