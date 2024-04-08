@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import com.jpa.tarea_274.Exceptions.BadRequestException;
+import com.jpa.tarea_274.Exceptions.NotFoundException;
 import com.jpa.tarea_274.models.Socio;
 import com.jpa.tarea_274.repositories.SocioRepository;
 import com.jpa.tarea_274.services.GenericCrudService;
