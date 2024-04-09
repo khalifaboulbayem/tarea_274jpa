@@ -1,5 +1,6 @@
 package com.jpa.tarea_274.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,9 +22,10 @@ public class Patron {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "El nombre no debe ser vacio")
     @Size(max = 100)
-    private String nombre;
+    private String name;
 
-    private String telefono;
+    @Column(unique = true)
+    private String phone;
 }

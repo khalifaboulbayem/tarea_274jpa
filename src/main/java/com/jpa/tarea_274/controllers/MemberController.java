@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.jpa.tarea_274.dto.PatronDto;
-import com.jpa.tarea_274.models.Patron;
-import com.jpa.tarea_274.services.impl.PatronServiceImp;
+import com.jpa.tarea_274.dto.MemberDto;
+import com.jpa.tarea_274.models.Member;
+import com.jpa.tarea_274.services.impl.MemberSeriveImp;
 
 @RestController
-@RequestMapping("/api/patrones")
-public class PatronController {
+@RequestMapping("/api/members")
+public class MemberController {
 
     @Autowired
-    PatronServiceImp service;
+    MemberSeriveImp service;
 
     /**
      * Devolver una lista
@@ -27,13 +27,13 @@ public class PatronController {
     }
 
     /**
-     * Devoler un patron segun su id
+     * Devoler un member segun su id
      * 
      * @param id
      * @return
      */
     @GetMapping("/details/{id}")
-    public ResponseEntity<Patron> details(@PathVariable long id) {
+    public ResponseEntity<Member> details(@PathVariable long id) {
         return ResponseEntity.ok(service.getById(id));
 
     }
@@ -45,26 +45,26 @@ public class PatronController {
      * @return
      */
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody PatronDto entity) {
-        Patron patronCreated = service.add(entity);
-        return ResponseEntity.ok(patronCreated);
+    public ResponseEntity<?> create(@RequestBody MemberDto entity) {
+        Member memberCreated = service.add(entity);
+        return ResponseEntity.ok(memberCreated);
     }
 
     /**
-     * Editar el patron
+     * Editar el member
      * 
      * @param id
      * @param entity
      * @return
      */
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Patron> update(@PathVariable long id, @RequestBody PatronDto entity) {
-        Patron patron = service.edit(id, entity);
-        return ResponseEntity.ok(patron);
+    public ResponseEntity<Member> update(@PathVariable long id, @RequestBody MemberDto entity) {
+        Member member = service.edit(id, entity);
+        return ResponseEntity.ok(member);
     }
 
     /**
-     * Borrar un patron
+     * Borrar un member
      * 
      * @param id
      * @return
@@ -72,6 +72,6 @@ public class PatronController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         service.delete(id);
-        return ResponseEntity.ok("Patron borrado exitosamente!");
+        return ResponseEntity.ok("Member borrado exitosamente!");
     }
 }

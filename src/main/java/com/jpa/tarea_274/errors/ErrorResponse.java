@@ -20,7 +20,7 @@ public class ErrorResponse {
     // private Exception e;
 
     public ErrorResponse(HttpStatus status, Exception ex, String path) {
-        this.exception = ex.getClass().getSimpleName();// Para ver el nombre de la exception lanzada.
+        this.exception = ex.getClass().getSimpleName();// Para ver el name de la exception lanzada.
         this.code = status.value();
         this.status = status;
         this.message = ex.getMessage();

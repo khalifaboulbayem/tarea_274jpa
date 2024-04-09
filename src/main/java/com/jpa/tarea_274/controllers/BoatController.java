@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.jpa.tarea_274.dto.PatronDto;
-import com.jpa.tarea_274.models.Patron;
-import com.jpa.tarea_274.services.impl.PatronServiceImp;
+import com.jpa.tarea_274.dto.BoatDto;
+import com.jpa.tarea_274.models.Boat;
+import com.jpa.tarea_274.services.impl.BoatServiceImp;
 
 @RestController
-@RequestMapping("/api/patrones")
-public class PatronController {
+@RequestMapping("/api/boats")
+public class BoatController {
 
     @Autowired
-    PatronServiceImp service;
+    BoatServiceImp service;
 
     /**
      * Devolver una lista
@@ -27,14 +27,21 @@ public class PatronController {
     }
 
     /**
-     * Devoler un patron segun su id
+     * Devoler un boat segun su id
      * 
      * @param id
      * @return
      */
     @GetMapping("/details/{id}")
-    public ResponseEntity<Patron> details(@PathVariable long id) {
+    public ResponseEntity<Boat> details(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
+
+    }
+
+    // Obtener boats de un member
+    @GetMapping("/member/{id}")
+    public ResponseEntity<?> getBoatsByMember(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getAllByMemberId(id));
 
     }
 
@@ -45,26 +52,26 @@ public class PatronController {
      * @return
      */
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody PatronDto entity) {
-        Patron patronCreated = service.add(entity);
-        return ResponseEntity.ok(patronCreated);
+    public ResponseEntity<?> create(@RequestBody BoatDto entity) {
+        Boat boatCreated = service.add(entity);
+        return ResponseEntity.ok(boatCreated);
     }
 
     /**
-     * Editar el patron
+     * Editar el boat
      * 
      * @param id
      * @param entity
      * @return
      */
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Patron> update(@PathVariable long id, @RequestBody PatronDto entity) {
-        Patron patron = service.edit(id, entity);
-        return ResponseEntity.ok(patron);
+    public ResponseEntity<Boat> update(@PathVariable Long id, @RequestBody BoatDto entity) {
+        Boat boat = service.edit(id, entity);
+        return ResponseEntity.ok(boat);
     }
 
     /**
-     * Borrar un patron
+     * Borrar un boat
      * 
      * @param id
      * @return
@@ -72,6 +79,6 @@ public class PatronController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         service.delete(id);
-        return ResponseEntity.ok("Patron borrado exitosamente!");
+        return ResponseEntity.ok("¡Boat borrado exitosamente!");
     }
 }

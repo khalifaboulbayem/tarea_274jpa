@@ -67,13 +67,4 @@ public class GlobalException {
         return new ErrorResponse(HttpStatus.CONFLICT, ex, request.getRequestURI());
     }
 
-    @ExceptionHandler({
-            /// UnauthorizedException.class,
-            // AccessDeniedException.class TODO: descomentar cuando se añade la seguridad
-    })
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public void handlerUnauthorizedException() {
-        // TODO: nothing to do here
-    }
-
 }

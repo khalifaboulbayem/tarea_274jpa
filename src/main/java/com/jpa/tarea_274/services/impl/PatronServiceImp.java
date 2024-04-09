@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerErrorException;
 
 import com.jpa.tarea_274.Exceptions.*;
@@ -12,7 +13,8 @@ import com.jpa.tarea_274.models.Patron;
 import com.jpa.tarea_274.repositories.PatronRepository;
 import com.jpa.tarea_274.services.GenericCrudService;
 
-public class PatronSeriveImp implements GenericCrudService<Patron, PatronDto> {
+@Service
+public class PatronServiceImp implements GenericCrudService<Patron, PatronDto> {
 
     @Autowired
     private PatronRepository patronRepository;
@@ -24,8 +26,8 @@ public class PatronSeriveImp implements GenericCrudService<Patron, PatronDto> {
         }
         try {
             Patron patron = Patron.builder()
-                    .nombre(newEntity.getNombre())
-                    .telefono(newEntity.getTelefono())
+                    .name(newEntity.getName())
+                    .phone(newEntity.getPhone())
                     .build();
             return patronRepository.save(patron);
         } catch (DataIntegrityViolationException e) {
@@ -67,11 +69,8 @@ public class PatronSeriveImp implements GenericCrudService<Patron, PatronDto> {
         Patron patronToEdit = patronRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("No hay ningun patron con el ID: " + id));
 
-        // usar builder para construir el objeto Patron
-        patronToEdit = Patron.builder()
-                .nombre(newEntity.getNombre())
-                .telefono(newEntity.getTelefono())
-                .build();
+        patronToEdit.setName(newEntity.getName());
+        patronToEdit.setPhone(newEntity.getPhone());
 
         try {
             Patron patron = patronRepository.save(patronToEdit);
@@ -93,6 +92,8 @@ public class PatronSeriveImp implements GenericCrudService<Patron, PatronDto> {
                 throw new ConflictException("No se puede editar el patron con el ID: " + id
                         + " Data integrity violation \n" + ex.getMessage());
             }
+        } else {
+            throw new NotFoundException("No existe ningun registro con el ID: " + id);
         }
     }
 
