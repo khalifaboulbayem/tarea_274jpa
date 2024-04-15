@@ -1,9 +1,7 @@
 package com.jpa.tarea_274.services.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import org.hibernate.jdbc.BatchFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,6 @@ import com.jpa.tarea_274.dto.TripDto;
 import com.jpa.tarea_274.models.Boat;
 import com.jpa.tarea_274.models.Patron;
 import com.jpa.tarea_274.models.Trip;
-import com.jpa.tarea_274.models.Member;
 import com.jpa.tarea_274.repositories.*;
 import com.jpa.tarea_274.services.GenericCrudService;
 
